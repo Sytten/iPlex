@@ -1,16 +1,29 @@
+import sys
+import os
+from os.path import abspath, dirname, join
 from PySide2.QtWidgets import QApplication
-from PySide2.QtQuick import QQuickView
-from PySide2.QtCore import QUrl
+from PySide2.QtQml import QQmlApplicationEngine
+from plex import Plex
 
 def main():
     app = QApplication([])
-    view = QQuickView()
-    url = QUrl("views/view.qml")
+    engine = QQmlApplicationEngine()
 
-    view.setSource(url)
-    view.setResizeMode(QQuickView.SizeRootObjectToView)
-    view.show()
-    app.exec_()
+    # Instances of Objects
+    plex = Plex(os.environ['USERNAME'], os.environ['PASSWORD'], os.environ['SERVER_NAME'])
+
+    # Expose instances
+    context = engine.rootContext()
+    context.setContextProperty("plex", plex)
+
+    # Load the view
+    view_path = join(dirname(__file__), 'views/view.qml')
+    engine.load(abspath(view_path))
+
+    if not engine.rootObjects():
+        sys.exit(-1)
+
+    sys.exit(app.exec_())
 
 if __name__ == '__main__':
     main()

@@ -1,2 +1,11 @@
 # Qt
 *.qmlc 
+
+# Python
+__pycache__/
+
+# OS
+.env
+
+# IDE
+.vscode/
