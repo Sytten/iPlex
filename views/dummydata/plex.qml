@@ -3,8 +3,16 @@ import QtQml.Models 2.11
 
 Item {
     property variant artists: ListModel {
-        ListElement { modelData: "Artist 1" }
-        ListElement { modelData: "Artist 2" }
+        ListElement { 
+            modelData: Item {
+                property variant name: "Artist 1" 
+            }
+        }
+        ListElement { 
+            modelData: Item {
+                property variant name: "Artist 2" 
+            }
+        }
     }
     
     property variant currentAlbums: ListModel {

@@ -27,13 +27,13 @@ ApplicationWindow {
                         width: parent.width
                         height: 40
                         Text {
-                            text: modelData
+                            text: modelData.name
                         }
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
                                 artistsView.currentIndex = index
-                                plex.loadAlbums(modelData)
+                                plex.loadAlbums(modelData.name)
                             }
                         }
                     }
@@ -48,11 +48,26 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 model: plex.currentAlbums
-                delegate: Row {
-                    Text {
-                        text: modelData
-                    }
-                }
+                delegate: Component {
+  ColumnLayout {
+    width: parent.width
+
+    Text {
+      Layout.preferredHeight: 20
+      text: modelData.title
+    }
+
+    ListView {
+      Layout.fillHeight: true
+      model: modelData.songs
+      delegate: Row {
+        Text {
+            text: modelData
+        }
+      }
+    }
+  }
+}
             }
         }
 
@@ -64,7 +79,3 @@ ApplicationWindow {
 
     }
 }
-/*##^## Designer {
-    D{i:16;anchors_height:400;anchors_width:800;anchors_x:0;anchors_y:0}
-}
- ##^##*/
